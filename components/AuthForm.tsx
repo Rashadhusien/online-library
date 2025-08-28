@@ -13,7 +13,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -23,6 +22,9 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { FIELD_NAMES, FIELD_TYPES } from "@/constant";
 import ImageUpload from "./ImageUpload";
+import { toast } from "@/hooks/use-toast";
+
+import { useRouter } from "next/navigation";
 interface Props<T extends FieldValues> {
   schema: ZodType<T, any, any>;
   defaultValues: T;
@@ -36,6 +38,8 @@ const AuthForm = <T extends FieldValues>({
   defaultValues,
   onSubmit,
 }: Props<T>) => {
+  const router = useRouter();
+
   const isSignIn = type === "sign-in";
 
   const form: UseFormReturn<T> = useForm({
@@ -43,7 +47,24 @@ const AuthForm = <T extends FieldValues>({
     defaultValues: defaultValues as DefaultValues<T>,
   });
 
-  const handleSubmit: SubmitHandler<T> = async (data) => {};
+  const handleSubmit: SubmitHandler<T> = async (data) => {
+    const result = await onSubmit(data);
+    if (result.success) {
+      toast({
+        title: isSignIn ? "Signed in successfully!" : "Account created!",
+        description: isSignIn
+          ? "Welcome back to the BookWise!"
+          : "Your account has been created successfully!",
+      });
+      router.push("/");
+    } else {
+      toast({
+        title: `${isSignIn ? "Sign In" : "Sign Up"} failed`,
+        description: result.error || "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <div className="flex flex-col gap-4">
@@ -59,7 +80,7 @@ const AuthForm = <T extends FieldValues>({
       </p>
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit(handleSubmit )}
           className="space-y-6 w-full"
         >
           {Object.keys(defaultValues).map((field) => (
