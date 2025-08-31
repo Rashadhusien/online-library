@@ -10,7 +10,7 @@ const page = () => {
         <Button className="bg-primary-admin" asChild>
           <Link href={"/admin/books/new"} className="text-white">
             {" "}
-            + Create a Newo Book
+            + Create a New Book
           </Link>
         </Button>
       </div>

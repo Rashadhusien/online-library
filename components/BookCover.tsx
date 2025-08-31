@@ -1,7 +1,9 @@
+"use client";
 import React from "react";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 import BookCoverSvg from "./BookCoverSvg";
+import { IKImage } from "imagekitio-next";
+import config from "@/lib/config";
 
 type BookCoverVriant = "extraSmall" | "small" | "medium" | "regular" | "wide";
 
@@ -26,6 +28,7 @@ const BookCover = ({
   coverColor = "#012B48",
   coverUrl = "https://placehold.co/400x600.png",
 }: Props) => {
+  console.log(coverUrl);
   return (
     <div
       className={cn(
@@ -44,11 +47,14 @@ const BookCover = ({
           overflow: "hidden",
         }}
       >
-        <Image
-          src={coverUrl}
+        <IKImage
+          path={coverUrl}
+          urlEndpoint={config.env.imagekit.urlEndpoint}
           alt="book cover"
           fill
           className="rounded-sm overflow-hidden"
+          loading="lazy"
+          lqip={{ active: true }}
         />
       </div>
     </div>

@@ -7,6 +7,7 @@ import React from "react";
 import { cn, getInitials } from "@/lib/utils";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Session } from "next-auth";
+import LogoutButton from "./LogoutButton";
 
 const Header = ({ session }: { session: Session }) => {
   const pathname = usePathname();
@@ -17,7 +18,7 @@ const Header = ({ session }: { session: Session }) => {
       </Link>
 
       <ul className="flex fle-row items-center gap-8">
-        <li>
+        {/* <li>
           <Link
             href={"/library"}
             className={cn(
@@ -27,15 +28,17 @@ const Header = ({ session }: { session: Session }) => {
           >
             Library
           </Link>
+        </li> */}
+        <li className="flex gap-2 justify-center items-center">
+          <Avatar>
+            <AvatarFallback className="bg-amber-100 font-bold">
+              {getInitials(session?.user?.name || "User")}
+            </AvatarFallback>
+          </Avatar>
+          <p className="text-light-100">{session?.user?.name}</p>
         </li>
         <li>
-          <Link href={"/my-profile"}>
-            <Avatar>
-              <AvatarFallback className="bg-amber-100 font-bold">
-                {getInitials(session?.user?.name || "User")}
-              </AvatarFallback>
-            </Avatar>
-          </Link>
+          <LogoutButton />
         </li>
       </ul>
     </header>

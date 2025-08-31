@@ -8,6 +8,20 @@
       "when": 1756299549339,
       "tag": "0000_lazy_iceman",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1756590546179,
+      "tag": "0001_closed_swarm",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1756597651581,
+      "tag": "0002_ambitious_boomerang",
+      "breakpoints": true
     }
   ]
 }
